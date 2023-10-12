@@ -114,4 +114,14 @@ $
     - `user_id`, a `users.id` value (it is assume `user_id` is linked to an existing `users`)
   - **Tips:**
     - [Calculate-Weighted-Average](https://www.wikihow.com/Calculate-Weighted-Average)
+<<<<<<< HEAD
 **
+=======
+**13. Average weighted score for all!**
+- [101-average_weighted_score.sql](./101-average_weighted_score.sql): A script that creates a stored procedure that computes and store the average weighted score for all students.
+  - It takes no input
+  - **Tips:**
+    - [Calculate-Weighted-Average](https://www.wikihow.com/Calculate-Weighted-Average)
+
+:+1:
+>>>>>>> de72e61 (Readme updated)
