@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Script to provide stats about Nginx logs in MongoDB"""
-
-from pymongo import MongoClient
+import MongoClient
 
 
 def main():
