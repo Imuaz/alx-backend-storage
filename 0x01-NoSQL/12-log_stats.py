@@ -1,26 +1,22 @@
 #!/usr/bin/env python3
-"""Script to provide stats about Nginx logs in MongoDB"""
-import MongoClient
+''' module for task 12 '''
+from pymongo import MongoClient
 
 
 def main():
-    '''
-    Connect to MongoDB and access the "logs" database and "nginx" collection'''
+    ''' script that provides some stats about Nginx logs '''
     client = MongoClient('mongodb://127.0.0.1:27017')
-    nginx_collection = client.logs.nginx
+    lst = client.logs.nginx
 
-    total_logs = nginx_collection.estimated_document_count()
+    print("{} logs\nMethods:".format(lst.estimated_document_count()))
 
-    http_methods = ["GET", "POST", "PUT", "PATCH", "DELETE"]
-    method_counts = {method: nginx_collection.count_documents({'method': method}) for method in http_methods}
+    for method in ["GET", "POST", "PUT", "PATCH", "DELETE"]:
+        print("\tmethod {}: {}".format(method,
+              lst.count_documents({'method': method})))
 
-    status_check = nginx_collection.count_documents({'method': 'GET', 'path': '/status'}
+    print("{} status check".format(lst.count_documents(
+        {'method': 'GET', 'path': "/status"})))
 
-    print(f"{total_logs} logs")
-    print("Methods:")
-    for method, count in method_counts.items():
-        print(f"\tmethod {method}: {count}")
-    print(f"{status_check} status check")
 
 if __name__ == "__main__":
     main()
