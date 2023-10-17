@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 ''' module for task 12 '''
 import os
 from pymongo import MongoClient
@@ -34,3 +35,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
