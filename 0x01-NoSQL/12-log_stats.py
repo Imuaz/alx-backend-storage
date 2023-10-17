@@ -1,4 +1,4 @@
-!/usr/bin/env python3
+#!/usr/bin/env python3
 """pymongo script"""
 from pymongo import MongoClient
 
