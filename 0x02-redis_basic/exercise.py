@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin
 '''
 Exercise Module
 '''
@@ -6,19 +6,6 @@ import redis
 from uuid import uuid4
 from typing import Callable, Optional, Union
 from functools import wraps
-
-
-def count_calls(method: Callable) -> Callable:
-    '''count_calls function'''
-    key = method.__qualname__
-
-    @wraps(method)
-    def wrapper(self, *args, **kwargs):
-        '''wrapper decorated functio'''
-        self._redis.incr(key)
-        return method(self, *args, **kwargs)
-
-    return wrapper
 
 
 class Cache:
