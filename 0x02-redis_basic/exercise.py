@@ -25,7 +25,7 @@ class Cache:
         self._redis.set(key, data)
         return key
 
-    def get(self, key: str, fn: Optional[Calllable] = None) ->\
+    def get(self, key: str, fn: Optional[Callable] = None) ->\
             Union[str, bytes, int, float]:
         '''Retrieves data from cache by key and optionally applys
         transformation function'''
