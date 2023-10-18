@@ -9,16 +9,28 @@ from functools import wraps
 
 
 def count_calls(method: Callable) -> Callable:
-    '''counts method call'''
+    """A decorator to count method calls.
+
+    Args:
+        method (Callable): The method to count calls for.
+
+    Returns:
+        Callable: The wrapped method.
+    """
     key = method.__qualname__
 
     @wraps(method)
     def wrapper(self, *args, **kwargs):
-        '''counts calls and invoke the original method'''
+        """A wrapper function to count calls and invoke the original method.
+
+        Returns: The result of the original method.
+        """
         self._redis.incr(key)
         return method(self, *args, **kwargs)
 
     return wrapper
+
+
 class Cache:
     '''stores and retrieves data'''
     def __init__(self):
