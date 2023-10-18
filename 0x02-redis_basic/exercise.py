@@ -8,6 +8,10 @@ from typing import Callable, Optional, Union
 from functools import wraps
 
 
+def count_calls(method: Callable) -> Callable:
+    '''counts method call'''
+    key = method.__qualname__
+    
 class Cache:
     '''stores and retrieves data'''
     def __init__(self):
