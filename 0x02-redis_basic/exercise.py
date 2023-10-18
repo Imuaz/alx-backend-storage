@@ -9,30 +9,14 @@ from functools import wraps
 
 
 def count_calls(method: Callable) -> Callable:
-    '''counts method calls'''
+    '''count_calls function'''
     key = method.__qualname__
 
     @wraps(method)
     def wrapper(self, *args, **kwargs):
-        '''counts calls and invoke the original method'''
+        '''wrapper decorated functio'''
         self._redis.incr(key)
         return method(self, *args, **kwargs)
-
-    return wrapper
-
-
-def cache_decorator(method: Callable) -> Callable:
-    '''adds call history to a method'''
-    key = method.__qualname__
-    inputs, outputs = key + ":inputs", key + ":outputs"
-
-    @wraps(method)
-    def wrapper(self, *args, **kwargs):
-        '''logs inputs and outputs'''
-        self._redis.rpush(inputs, str(args))
-        output = str(method(self, *args, **kwargs))
-        self._redis.rpush(outputs, output)
-        return output
 
     return wrapper
 
