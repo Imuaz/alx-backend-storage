@@ -24,11 +24,12 @@ class Cache:
         key = self._generate_key()
         self._redis.set(key, data)
         return key
-    def get(self, key: str, fn: Optional[Callable] = None) ->\
-            Union[str, bytes int, float]:
+
+    def get(self, key: str, fn: Optional[Calllable] = None) ->\
+            Union[str, bytes, int, float]:
         '''Retrieves data from cache by key and optionally applys
         transformation function'''
-        value: Union[str, bytes, int, float] = self._redis.get(key)
+        value = self._redis.get(key)
         if fn:
             value = fn(value)
         return value
@@ -42,5 +43,3 @@ class Cache:
     def get_int(data: str) -> int:
         '''Converts a string data stored in the cache to an integer type'''
         return int(data)
-            
-    
