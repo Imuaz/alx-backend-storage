@@ -24,4 +24,3 @@ class Cache:
         key = self._generate_key()
         self._redis.set(key, data)
         return key
-        
