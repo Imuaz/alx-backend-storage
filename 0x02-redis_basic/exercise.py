@@ -26,6 +26,16 @@ def cache_decorator(method: Callable) -> Callable:
     key = method.__qualname__
     inputs, outputs = key + ":inputs", key + ":outputs"
 
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        '''logs inputs and outputs'''
+        self._redis.rpush(inputs, str(args))
+        output = str(method(self, *args, **kwargs))
+        self._redis.rpush(outputs, output)
+        return output
+
+    return wrapper
+
 
 class Cache:
     '''stores and retrieves data'''
