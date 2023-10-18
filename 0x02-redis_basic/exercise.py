@@ -21,6 +21,41 @@ def count_calls(method: Callable) -> Callable:
 
     return wrapper
 
+def cache_decorator(method: Callable) -> Callable:
+    '''add call history to a method'''
+    key = method.__qualname__
+    inputs, outputs = key + ":inputs", key + ":outputs"
+
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        '''logs inputs and outputs'''
+        self._redis.rpush(inputs, str(args))
+        output = str(method(self, *args, **kwargs))
+        self._redis.rpush(outputs, output)
+        return output
+
+    return wrapper
+
+def replay(method: Callable) -> None:
+    '''prints the history of method calls'''
+    key = method.__qualname__
+    count_key = key + ":count"
+    inputs, outputs = key + ":inputs", key + ":outputs"
+    redis_client = method.__self__._redis
+
+    count = redis_client.get(count_key)
+    if count:
+        count = count.decode("utf-8")
+        print(f"{key} was called {count} times:")
+        input_list = redis_client.lrange(inputs, 0, -1)
+        output_list = redis_client.lrange(outputs, 0, -1)
+        IOTuple = zip(input_list, output_list)
+        for inp, outp in list(IOTuple):
+            attr, data = inp.decode("utf-8"), outp.decode("utf-8")
+            print(f"{key}(*{attr}) -> {data}")
+    else:
+        print(f"{key} has not been called.")
+
 
 class Cache:
     '''stores and retrieves data'''
