@@ -5,6 +5,26 @@ Exercise Module
 import redis
 from uuid import uuid4
 from typing import Callable, Optional, Union
+from functools import wraps
+
+
+def count_calls(method: Callable) -> Callable:
+    '''counts method calls'''
+    key = method.__qualname__
+
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        '''counts calls and invoke the original method'''
+        self._redis.incr(key)
+        return method(self, *args, **kwargs)
+
+    return wrapper
+
+
+def cache_decorator(method: Callable) -> Callable:
+    '''adds call history to a method'''
+    key = method.__qualname__
+    inputs, outputs = key + ":inputs", key + ":outputs"
 
 
 class Cache:
