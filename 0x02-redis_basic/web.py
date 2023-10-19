@@ -19,14 +19,13 @@ def get_page(url: str) -> str:
     # Fetch the page from the remote server.
     resp = requests.get(url)
 
-    # Cache the page for 10 seconds.
-    rc.setex(f"cached:{url}", 10, resp.text)
-
     # Increment the hit counter for the page.
     rc.incr(f"count:{url}")
 
-    return resp.text
+    # Cache the page for 10 seconds.
+    rc.setex(f"cached:{url}", 10, resp.text)
 
+    return resp.text
 
 if __name__ == "__main__":
     get_page("http://slowwly.robertomurray.co.uk")
