@@ -21,6 +21,7 @@ def count_calls(method: Callable) -> Callable:
 
     return wrapper
 
+
 def cache_decorator(method: Callable) -> Callable:
     '''add call history to a method'''
     key = method.__qualname__
@@ -35,6 +36,7 @@ def cache_decorator(method: Callable) -> Callable:
         return output
 
     return wrapper
+
 
 def replay(method: Callable) -> None:
     '''prints the history of method calls'''
